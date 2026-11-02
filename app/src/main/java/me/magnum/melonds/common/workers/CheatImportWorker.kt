@@ -83,7 +83,7 @@ class CheatImportWorker @AssistedInject constructor(
             val progressTrackerStream = ProgressTrackerInputStream(it)
             parser.parseCheatDatabase(progressTrackerStream, object : CheatDatabaseParserListener {
                 override fun onDatabaseParseStart(databaseName: String): CheatDatabase = runBlocking {
-                    cheatsRepository.deleteCheatDatabaseIfExists(databaseName)
+                    cheatsRepository.deleteImportedCheatDatabases()
                     cheatsRepository.addCheatDatabase(databaseName)
                 }
 

@@ -139,13 +139,9 @@ class RoomCheatsRepository(
         settingsBackupManager.requestMirrorWrite()
     }
 
-    override suspend fun deleteCheatDatabaseIfExists(databaseName: String) {
-        if (databaseName == CheatDatabaseEntity.CUSTOM_CHEATS_DATABASE_NAME) {
-            // Don't allow the custom cheat database to be deleted
-            return
-        }
-
-        database.cheatDatabaseDao().deleteCheatDatabase(databaseName)
+    override suspend fun deleteImportedCheatDatabases() {
+        // Replace every imported database, regardless of its name. Keep manually created cheats.
+        database.cheatDatabaseDao().deleteImportedCheatDatabases(CheatDatabaseEntity.CUSTOM_CHEATS_DATABASE_ID)
         database.cheatFolderDao().deleteEmptyFolders()
         database.gameDao().deleteEmptyGames()
         settingsBackupManager.requestMirrorWrite()
